@@ -1,7 +1,7 @@
-;(function( $, window, document, undefined ) {
+
+(function( $, window, document, undefined ) {
 
   "use strict";
-
   // cross browser request animation frame
   if ( !window.requestAnimationFrame ) {
 
@@ -91,7 +91,7 @@
 
       qrr.okBtn = $('<a id="qrr-ok">OK</a>');
 
-      qrr.loadingMessage = $('<div id="qrr-loading-message">🎥 Unable to access video stream (please make sure you have a webcam enabled)</div>');
+      qrr.loadingMessage = $('<div id="qrr-loading-message">🎥 Verbindung zur Kamera kann nicht hergestellt werden.Überprüfe bitte die Berechtigungen des Browsers.</div>');
       qrr.canvas = $('<canvas id="qrr-canvas" class="hidden"></canvas>');
       qrr.audio = $('<audio hidden id="qrr-beep" src="' + $.qrCodeReader.beepPath + '" type="audio/mp3"></audio>');
 
@@ -119,6 +119,7 @@
 
     // draw a line
     drawLine: function(begin, end, color) {
+
       var canvas = qrr.canvas[0].getContext("2d");
       canvas.beginPath();
       canvas.moveTo(begin.x, begin.y);
@@ -130,6 +131,7 @@
 
     // draw a rectangle around a matched QRCode image
     drawBox: function(location, color) {
+
       qrr.drawLine(location.topLeftCorner, location.topRightCorner, color);
       qrr.drawLine(location.topRightCorner, location.bottomRightCorner, color);
       qrr.drawLine(location.bottomRightCorner, location.bottomLeftCorner, color);
@@ -183,6 +185,7 @@
       qrr.codes = [];
 
       // initialize interface
+
       qrr.outputNoData.show();
       qrr.outputData.empty();
       qrr.outputData.hide();
@@ -306,11 +309,15 @@
 
             // show our reading
             //Christin: hier wird anstatt das Ergebnis anzuzeigen zur Funktion Check gesprungen
+            $('<div class="bezahlt hidden symbol "><img class="object-contain h-24 " src="./pic/bezahlt.png"></div>').appendTo(qrr.outputData);
+            $('<div class="nichtBezahlt hidden symbol "><img class="object-contain h-24 " src="./pic/nichtBezahlt.png"></div>').appendTo(qrr.outputData);
 
-            $('<div class="bezahlt hidden m-auto"><img class="object-contain h-24 w-1/2" src="./pic/bezahlt.png"></div>').appendTo(qrr.outputData);
-            $('<div class="nichtBezahlt hidden m-auto "><img class="object-contain h-24 w-1/2" src="./pic/nichtBezahlt.png"></div>').appendTo(qrr.outputData);
-            $('<div class="unbekannt hidden m-auto"><img class="object-contain h-24 w-1/2" src="./pic/unbekannt.jpg"></div>').appendTo(qrr.outputData);
-            check(code.data);
+            /* wenn die Info "nicht bezahl" ebenfalls in der Datenbank mit aufgenommen wird, dann kann bei unbekannten QR-Codes ein Fragezeichen eingeblendet werden
+            Dafür: nächste Zeile einblenden und übernächste Zeile ausblenden
+            $('<div class="unbekannt hidden symbol"><img class="object-contain h-24 " src="./pic/unbekannt.jpg"></div>').appendTo(qrr.outputData);
+*/
+            $('<div class="unbekannt hidden symbol"><img class="object-contain h-24 " src="./pic/nichtBezahlt.png"></div>').appendTo(qrr.outputData);
+            check(code.data); // hier wird geprüft, ob Code in Datenbank ist
             //$('<div class="qrr-input"></div>').text(code.data).appendTo(qrr.outputData);
             //qrr.outputDiv[0].scrollTop = qrr.outputDiv[0].scrollHeight;
 
@@ -356,6 +363,7 @@
 
       // hide the GUI
       qrr.canvas.addClass("hidden");
+
       qrr.loadingMessage.show();
       qrr.bgOverlay.hide();
       qrr.container.hide();
@@ -364,10 +372,10 @@
     }
 
 
+
   };
 
   $.fn.qrCodeReader = function ( options ) {
-
     // Instantiate the plugin only once (singletone) in the page:
     // when called again (or on a different element), we simply re-set the options
     // and display the QrCode reader interface with the right options.

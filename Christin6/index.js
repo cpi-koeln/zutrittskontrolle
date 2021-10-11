@@ -6,6 +6,7 @@ function check(data){
 
     if($(".ID_"+data).attr("check")==1)
       {
+
         first=0
         $(".bezahlt").each(function(){
           if(first==0)
