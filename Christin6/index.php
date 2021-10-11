@@ -52,17 +52,20 @@ foreach ($mitglieder  as $mitglied)
 </form>
 
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<?php include ("./index.js");?>
-<script src="./dist/js/qrcode-reader.js?v=20190604"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.js"></script>
+<?php include ("./index.js");
+?>
+
+<script src="./dist/js/qrcode-reader.js"></script>  <!-- hier gehts zum QR-Reader-->
 
 <script>
 
   $(function(){
 
     // overriding path of JS script and audio
-    $.qrCodeReader.jsQRpath = "./dist/js/jsQR/jsQR.min.js";
+    $.qrCodeReader.jsQRpath = "./dist/js/jsQR/jsQR.js";
     $.qrCodeReader.beepPath = "./dist/audio/beep.mp3";
+
 
     // bind all elements of a given class
     $(".qrcode-reader").qrCodeReader();
