@@ -1,62 +1,42 @@
 <script>
 
 
+
 function check(data){
-  if ($(".ID_"+data).length > 0 ) {
-
-    if($(".ID_"+data).attr("check")==1)
-      {
-
-        first=0
-        $(".bezahlt").each(function(){
-          if(first==0)
-            {
-              first=1;
-              if($(this).hasClass("hidden"))
-                {
-                  $(this).removeClass("hidden");
-                };
-            };
-        });
-        first=0
-        $(".nichtBezahlt").each(function(){
-          if(first==0)
-            {
-              first=1;
-              if(!$(this).hasClass("hidden"))
-                {
-                  $(this).addClass("hidden");
-                };
-            };
-        });
-        first=0
-        $(".unbekannt").each(function(){
-          if(first==0)
-            {
-              first=1;
-              if(!$(this).hasClass("hidden"))
-                {
-                  $(this).addClass("hidden");
-                };
-            };
-        });
-
-
-      }
-    else {
-      first=0
-      $(".bezahlt").each(function(){
-        if(first==0)
+  dataNumber=parseInt(data);
+  if(dataNumber>0) // wenn code ist eine Zahl
+    {
+      if($(".ID_"+data).length > 0 ) { // wenn ID vorhanden
+        if($(".ID_"+data).attr("check")==1) //ID vorhanden, bezahlt
           {
-            first=1;
-            if(!$(this).hasClass("hidden"))
-              {
-                $(this).addClass("hidden");
-              };
+            remove("bezahlt");
+            add("nichtBezahlt");
+            add("unbekannt");
+          }
+        else{  // ID vorhanden, nicht bezahlt
+            add("bezahlt");
+            remove("nichtBezahlt");
+            add("unbekannt");
           };
-      });
+        }
+      else { // ID nicht vorhanden
+        add("bezahlt");
+        add("nichtBezahlt");
+        remove("unbekannt");
+      };
+    }
+  else { // keine Zahl
+    add("bezahlt");
+    add("nichtBezahlt");
+    remove("unbekannt");
+    };
+  };
+
+
+
+    function remove(ort){
       first=0
-      $(".nichtBezahlt").each(function(){
+      $("."+ort).each(function(){
         if(first==0)
           {
             first=1;
@@ -65,9 +45,12 @@ function check(data){
                 $(this).removeClass("hidden");
               };
           };
-      });
+        });
+    }
+
+    function add(ort,attr){
       first=0
-      $(".unbekannt").each(function(){
+      $("."+ort).each(function(){
         if(first==0)
           {
             first=1;
@@ -76,53 +59,10 @@ function check(data){
                 $(this).addClass("hidden");
               };
           };
-      });
-
-
-
+        });
     }
 
-  }
-  else {
-    first=0
-    $(".bezahlt").each(function(){
-      if(first==0)
-        {
-          first=1;
-          if(!$(this).hasClass("hidden"))
-            {
-              $(this).addClass("hidden");
-            };
-        };
-    });
-    first=0
-    $(".nichtBezahlt").each(function(){
-      if(first==0)
-        {
-          first=1;
-          if(!$(this).hasClass("hidden"))
-            {
-              $(this).addClass("hidden");
-            };
-        };
-    });
-    first=0
-    $(".unbekannt").each(function(){
-      if(first==0)
-        {
-          first=1;
-          if($(this).hasClass("hidden"))
-            {
-              $(this).removeClass("hidden");
-            };
-        };
-    });
-  }
 
-
-
-
-}
 
 
 

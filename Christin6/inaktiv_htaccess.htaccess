@@ -1,9 +1,0 @@
-AddDefaultCharset UTF-8
-AuthType Basic
-AuthName "restricted Area"
-AuthUserFile /kunden/homepages/6/d583945443/htdocs/MediOrg/DLRG/Christin6/.htpasswd
-<IfModule mod_rewrite.c>
-RewriteEngine on
-RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization},L]
-</IfModule>
-require user test_dlrg
