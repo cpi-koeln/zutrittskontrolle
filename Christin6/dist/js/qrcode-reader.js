@@ -113,6 +113,8 @@
 
       qrr.container.appendTo(document.body);
 
+      // mein Zusatz
+
       qrr.video = document.createElement("video");
 
     },
