@@ -14,16 +14,22 @@ require __DIR__."/autoload.php";
 require __DIR__."/classes/pdo.php";
 require __DIR__."/classes/user.php";
 require __DIR__."/classes/mtgl.php";
+require __DIR__."/scr/css/style.css";
 
 
 
-include "database.php";
+include "databaseTest.php";
 
   try {
     $pdo = new pdo1($host_name,$database, $user_name, $password);
   } catch (PDOException $e) {
-    echo "Fehler!: " . $e->getMessage() . "<br/>";
-    die();
+    include "database.php";
+    try {
+      $pdo = new pdo1($host_name,$database, $user_name, $password);
+    } catch (PDOException $e) {
+      echo "Fehler!: " . $e->getMessage() . "<br/>";
+      die();
+    }
   }
 if(!empty($_COOKIE["userName"]))
   {

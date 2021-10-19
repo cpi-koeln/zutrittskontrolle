@@ -19,25 +19,63 @@ $ids=explode(",",$idString);
 
 
 
-$mitCNr=$pdo->get("mitCNr","tblCheck","checkId",$ids[0]);
-createPDF($mitCNr);
-//$pdf->Cells(0,10,$mitCNr,0,1);
 
 
-/*
+
+$ogId=$pdo->get("checkOg","tblCheck","checkId",$ids[0]);
+$zeile3=$pdo->get("ogZ3","tblOrtsgruppen","ogId",$ogId);
+$zeile4=$pdo->get("ogZ4","tblOrtsgruppen","ogId",$ogId);
+$zeile5=$pdo->get("ogZ5","tblOrtsgruppen","ogId",$ogId);
+$zeile6=$pdo->get("ogZ6","tblOrtsgruppen","ogId",$ogId);
+$zeile7=$pdo->get("ogZ7","tblOrtsgruppen","ogId",$ogId);
+$zeile8=$pdo->get("ogZ8","tblOrtsgruppen","ogId",$ogId);
+$rueckseite=array($zeile3,$zeile4,$zeile5,$zeile6,$zeile7,$zeile8);
+
+$namen=[];
+$mitCNrs=[];
 foreach ($ids as $id)
   {
-    $mitCNr=$pdo->get("mitCNr","tblCheck","checkId",$id);
-    QRcode::png($mitCNr, $mitCNr.'_QR.png');
+    $mitCNrAlt=$pdo->get("mitCNr","tblCheck","checkId",$id);
+    $mitCNrKurz=substr($mitCNrAlt,-13);
+    $d=date("d");
+    $m=date("m");
+    $y=date("Y");
+
+    $zahl=$y.$m.$d.$mitCNrKurz;
+    $pz=99-bcmod($zahl,"89");
+    $mitCNr=$pz.$mitCNrKurz;
+
+    $vorn=$pdo->get("checkVoN","tblCheck","checkId",$id);
+    $nachn=$pdo->get("checkNaN","tblCheck","checkId",$id);
+
+    $lengthVoN=strlen($vorn);
+    $nonceVoN=substr($vorn,0,32);
+    $nonceByteVoN=base64_decode($nonceVoN);
+    $vorname=substr($vorn,32,$lengthVoN);
+    $vorname=sodium_crypto_secretbox_open(base64_decode($vorname),$nonceByteVoN,$key);
+
+    $lengthNaN=strlen($nachn);
+    $nonceNaN=substr($nachn,0,32);
+    $nonceByteNaN=base64_decode($nonceNaN);
+    $nachname=substr($nachn,32,$lengthNaN);
+    $nachname=sodium_crypto_secretbox_open(base64_decode($nachname),$nonceByteNaN,$key);
+
+    $name=$vorname." ".$nachname;
+
+    $namen[]=$name;
+    $mitCNrs[]=$mitCNr;
+    $pdo->change("tblCheck","gedruckt","checkId",$id,1);
+    $pdo->change("tblCheck","mitCNr","checkId",$id,$mitCNr);
 
 
-
-
-    unlink($mitCNr.'_QR.png'); // löscht die QR-Codes wieder
   };
+  createPDF($mitCNrs,$namen,$rueckseite);
+  foreach ($mitCNrs as $mitCNr)
+    {
+      unlink($mitCNr.'_QR.png'); // löscht die QR-Codes wieder
+    };
 
 
-*/
 
 
 

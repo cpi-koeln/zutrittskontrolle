@@ -10,8 +10,38 @@ ob_end_flush();
 
 $id=$_POST["id"];
 
+
+if(!empty($_POST["gedruckt"]))
+  {
+    $pdo->change("tblCheck","gedruckt","checkId",$id,1);
+  }
+else
+  {
+    $pdo->change("tblCheck","gedruckt","checkId",$id,0);
+  };
+
+$oldQr=$pdo->get("mitCNr","tblCheck","checkId",$id);
 $newQr=$_POST["qrCode"];
-$pdo->change("tblCheck","mitCNr","mitCNr",$id,$newQr);
+if ($oldQr<>$newQr)
+  {
+    $pdo->change("tblCheck","mitCNr","checkId",$id,$newQr);
+    $pdo->change("tblCheck","gedruckt","checkId",$id,0);
+  };
+
+$vorn=$_POST["vorname"];
+$nonceByteVoN=random_bytes(SODIUM_CRYPTO_SECRETBOX_NONCEBYTES);
+$nonceVoN=base64_encode($nonceByteVoN); // laenge 32
+$vorname=base64_encode(sodium_crypto_secretbox($vorn,$nonceByteVoN,$key));
+$checkVoN=$nonceVoN.$vorname;
+$pdo->change("tblCheck","checkVoN","checkId",$id,$checkVoN);
+
+$nachn=$_POST["nachname"];
+$nonceByteNaN=random_bytes(SODIUM_CRYPTO_SECRETBOX_NONCEBYTES);
+$nonceNaN=base64_encode($nonceByteNaN); // laenge 32
+$nachname=base64_encode(sodium_crypto_secretbox($nachn,$nonceByteNaN,$key));
+$checkNaN=$nonceNaN.$nachname;
+$pdo->change("tblCheck","checkNaN","checkId",$id,$checkNaN);
+
 
 
 $bezahltBis=$_POST["bezahltBis"];
@@ -20,18 +50,18 @@ if (!empty($bezahltBis))
   {
     $datum=date_create($bezahltBis);
     $bezahltBisForm=date_format($datum,"Y-m-d");
-    $pdo->change("tblCheck","bezahltBis","checkId",$newQr,$bezahltBisForm);
+    $pdo->change("tblCheck","bezahltBis","checkId",$id,$bezahltBisForm);
   }
 elseif(!empty($_POST["bezahlt"]))
   {
-    $pdo->change("tblCheck","bezahlt","checkId",$newQr,1);
-    $pdo->change("tblCheck","bezahltBis","checkId",$newQr,"");
+    $pdo->change("tblCheck","bezahlt","checkId",$id,1);
+    $pdo->change("tblCheck","bezahltBis","checkId",$id,"");
 
   }
 else
   {
-    $pdo->change("tblCheck","bezahlt","checkId",$newQr,0);
-    $pdo->change("tblCheck","bezahltBis","checkId",$newQr,0);
+    $pdo->change("tblCheck","bezahlt","checkId",$id,0);
+    $pdo->change("tblCheck","bezahltBis","checkId",$id,0);
   };
 
 

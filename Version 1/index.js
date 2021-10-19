@@ -35,7 +35,6 @@ function check(data){
               },
               cache: false,
             });
-            alert("2");
             if($(".ID_"+dataShort).attr("check")==1) //ID vorhanden, bezahlt
               {
                 remove("bezahlt");

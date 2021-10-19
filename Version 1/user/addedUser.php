@@ -20,7 +20,7 @@ $useId=$pdo->get("userId","tblUser","userName",$userName);
 if (empty($useId))
   {
     $userPass=password_hash($userPassword,PASSWORD_DEFAULT);
-    $userOgId=$pdo->get("ogId","tblOg","namOg",$userOg);
+    $userOgId=$pdo->get("ogId","tblOrtsgruppen","ogName",$userOg);
     $pdo->addUser($userName,$userOgId,$userPass);
 
     header("Location: ../index.php");

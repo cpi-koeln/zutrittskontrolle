@@ -11,11 +11,20 @@ include("js/qrCodeGen.js");
 include($dir."scr/header2_2.php"); // hier kommt der zweite Teil des Headers, der die Navbar beinhaltet
 ob_end_flush();
 
+
+$ogNum=$pdo->get("ogNum","tblOrtsgruppen","ogId",$user->refOgId);
+$bezId=$pdo->get("refBezId","tblOrtsgruppen","ogId",$user->refOgId);
+$bezNum=$pdo->get("bezNum","tblBezirke","bezId",$bezId);
+$lvId=$pdo->get("refLvId","tblBezirke","bezId",$bezId);
+$lvNum=$pdo->get("lvNum","tblLandesverband","lvId",$lvId);
 //750920000700347
 //----------------------BODY------------------------------------//
 ?>
 
 <form action="addedMtgl.php" method="post" id="form1">
+  <input id="ogNum" class="hidden" value="<?php echo $ogNum;?>" >
+  <input id="bezNum" class="hidden" value="<?php echo $bezNum;?>" >
+  <input id="lvNum" class="hidden" value="<?php echo $lvNum;?>" >
   <table class="sm:w-11/12 md:w-3/5 lg:w-3/5  table mt-10 mx-5 ">
     <tbody>
 

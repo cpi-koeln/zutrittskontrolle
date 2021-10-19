@@ -46,7 +46,7 @@ else
       </li>
       <?php
       if (!empty($user)){?>
-      <li class='<?php echo $liBahnenClass;?>' title="Bahnen">
+      <li class='<?php echo $liBahnenClass." hidden";?>' title="Bahnen">
         <a id="" href=<?php echo $dir."schwimmbad/uebersicht.php";?>  class="h-20 w-full hover:bg-gray-500 block p-3">
             <i class="my-5 fas fa-2x  fa-swimming-pool"></i>
         </a>
@@ -79,7 +79,7 @@ else
                 <a class="block px-4 py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg dark-mode:bg-transparent dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 md:mt-0 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline" href='<?php echo $dir."user/logIn.php"?>'>Login</a>
               <?php }
               else {
-                if($user->refOgId=="1")
+                if($user->refOgId=="99999")
                 {?>
                   <a class="block px-4 py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg dark-mode:bg-transparent dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 md:mt-0 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline" href='<?php echo $dir."user/addUser.php"?>'>Neuen Benutzer hinzufügen</a>
                 <?php };?>
