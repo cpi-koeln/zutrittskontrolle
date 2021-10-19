@@ -1,6 +1,6 @@
 Willkommen in der Entwicklungsumgebung des Projekts Zutrittskontrolle!
 
-"Zutrittskontrolle" ist der Arbeitstitel für einen völlig neuen Ansatz gemeinnützigen Organisationen smarte digitale Lösungen zugänglich zu machen. Wir vereinen die Entwicklung von zielgerichteten und kundenorientierten digitalen Lösungen mit der Power von open source.editor so you can join us in testing bleeding-edge features, start playing with blocks, and maybe get inspired to build your own.
+"Zutrittskontrolle" ist der Arbeitstitel für einen völlig neuen Ansatz gemeinnützigen Organisationen smarte digitale Lösungen zugänglich zu machen. Wir vereinen die Entwicklung von zielgerichteten und kundenorientierten digitalen Lösungen mit der Power von open source.
 
 ## Getting Started
 
