@@ -17,4 +17,4 @@ Get hands on:
 
 ## License
 
-Zutrittskontrolle ist freie software, und es wird nach den Regeln der GNU General Public License version 2 veröffentlicht oder (ganz nach deiner Wahl) jeder späteren Version. Siehe [LICENSE.md](LICENSE.md) für die komplette Lizenz.
+Zutrittskontrolle ist freie software, und es wird nach den Regeln der MIT-Lizenz veröffentlicht. Siehe [LICENSE.txt](LICENSE.txt) für die komplette Lizenz.
