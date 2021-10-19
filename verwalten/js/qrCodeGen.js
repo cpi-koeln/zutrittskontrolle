@@ -2,8 +2,12 @@
 $(document).ready(function(){
 
 $(".keyUp").keyup(function(){
-  nummer=$("#mtglNr").val();
+  mtglNummer=$("#mtglNr").val();
   datum=$("#datum").val();
+  ogNum=$("#ogNum").val();
+  bezNum=$("#bezNum").val();
+  lvNum=$("#lvNum").val();
+  nummer=lvNum+bezNum+ogNum+mtglNummer;
   datumSplit=datum.split(".")
   qr=0;
   if (datumSplit.length==3)
@@ -49,7 +53,6 @@ $(".keyUp").keyup(function(){
 });
 
 function genQr(nummer,d,m,y){
-
 d=d.toString();
 m=m.toString();
 

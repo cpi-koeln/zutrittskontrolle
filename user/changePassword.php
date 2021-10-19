@@ -9,7 +9,7 @@ include($dir."scr/header2_2.php");
 
 
 if(!empty($_GET))
-  {
+  { var_dump($_GET);
     $grund=$_GET["grund"];
     if($grund=="keineUebereinstimmung")
       {

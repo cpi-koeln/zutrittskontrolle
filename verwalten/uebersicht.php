@@ -32,7 +32,7 @@ $mtgls=$pdo->getAllActive("tblCheck");
       <a  role="button "  href="../verwalten/addMtgl.php"><i title="Mitglied hinzufügen" alt="Mitglied hinzufügen" class="fas fa-user-plus fa-2x" /></i></a>
     </div>
     <div class="mr-8">
-      <a  role="button "  href="../verwalten/csvImport.php"><i title="CSV-Import" alt="CSV-Import" class="fas fa-file-csv fa-2x" /></i></a>
+      <a  role="button "  href="../verwalten/import.php"><i title="FileImport" alt="FIleImport" class="fas fa-file-import fa-2x" /></i></a>
     </div>
     <div class="mr-8">
       <button type="submit" class="buttonSubmit d-none"  formaction="../verwalten/deleteChecks.php">
@@ -51,58 +51,84 @@ $mtgls=$pdo->getAllActive("tblCheck");
 <table id="mainTable" class="w-full  mt-8 mx-1 table-fixed hover1 mainTable">
   <thead class="darkgrey-background">
     <tr>
-      <th  style="hyphens:auto" class=" break-words  text-black text-left  ">
+      <th  style="hyphens:auto" class=" w-3v100 break-words  text-black text-left  ">
+      </th>
+      <th  style="hyphens:auto" class=" w-5v100  break-words  text-black text-left  ">
         <input type="checkbox" id='checkAll' class=" form-checkbox h-5 w-5 ml-2"  >
       </th>
-      <th  style="hyphens:auto" class="w-3/12 break-words nummer text-black text-left  ">
+      <th  style="hyphens:auto" class="w-15v100 break-words vorname text-black text-left  ">
+        <div class="flex  flex-start ">
+          <div class="order" >
+            <a style="text-align: left;"    class="list-group-item clickable" >Vorname</a>
+          </div>
+          <div columnName="vorname"   class="my-auto hideColumn">
+            <a   class="ml-1 my-auto  " >
+              <i class="fas fa-minus-circle"></i>
+            </a>
+          </div>
+        </div>
+      </th>
+      <th  style="hyphens:auto" class="w-15v100 break-words nachname text-black text-left  ">
+        <div class="flex  flex-start ">
+          <div class="order" >
+            <a style="text-align: left;"    class="list-group-item clickable" >Nachname</a>
+          </div>
+          <div columnName="nachname"   class="my-auto hideColumn">
+            <a   class="ml-1 my-auto  " >
+              <i class="fas fa-minus-circle"></i>
+            </a>
+          </div>
+        </div>
+      </th>
+      <th  style="hyphens:auto" class="w-20v100 break-words nummer text-black text-left  ">
         <div class="flex  flex-start ">
           <div class="order" >
             <a style="text-align: left;"    class="list-group-item clickable" >Nummer</a>
           </div>
           <div columnName="nummer"   class="my-auto hideColumn">
-            <a   class="ml-5 my-auto  " >
+            <a   class="ml-1 my-auto  " >
               <i class="fas fa-minus-circle"></i>
             </a>
           </div>
         </div>
       </th>
-      <th  style="hyphens:auto" class="w-2/12 break-words bezahltBis text-black text-left  ">
+      <th  style="hyphens:auto" class="w-15v100 break-words bezahltBis text-black text-left  ">
         <div class="flex  flex-start ">
           <div class="order" >
             <a style="text-align: left;"    class="list-group-item clickable" >gültig bis</a>
           </div>
           <div columnName="bezahltBis"  class="my-auto hideColumn">
-            <a    class="ml-5 my-auto" >
+            <a    class="ml-1 my-auto" >
               <i class="fas fa-minus-circle"></i>
             </a>
           </div>
         </div>
       </th>
-      <th  style="hyphens:auto" class="w-2/12 break-words bezahlt text-black text-left  ">
+      <th  style="hyphens:auto" class="w-7v100 break-words bezahlt text-black text-left  ">
         <div class="flex  flex-start ">
           <div class="order" >
             <a style="text-align: left;"    class="list-group-item clickable" >gültig?</a>
           </div>
           <div columnName="bezahlt"  class="my-auto hideColumn">
-            <a    class="ml-5 my-auto" >
+            <a    class="ml-1 my-auto" >
               <i class="fas fa-minus-circle"></i>
             </a>
           </div>
         </div>
       </th>
-      <th  style="hyphens:auto" class="w-2/12 break-words gedruckt text-black text-left  ">
+      <th  style="hyphens:auto" class="w-10v100 break-words gedruckt text-black text-left  ">
         <div class="flex  flex-start ">
           <div class="order" >
             <a style="text-align: left;"    class="list-group-item clickable" >gedruckt?</a>
           </div>
           <div columnName="gedruckt"  class="my-auto hideColumn">
-            <a    class="ml-5 my-auto" >
+            <a    class="ml-1 my-auto" >
               <i class="fas fa-minus-circle"></i>
             </a>
           </div>
         </div>
       </th>
-      <th  style="hyphens:auto" class="w-2/12 break-words plusColumn text-black text-left  ">
+      <th  style="hyphens:auto" class="w-10v100 break-words plusColumn text-black text-left  ">
         <div class="flex justify-center my-auto">
           <a class=" my-auto " >
             <i class="fas fa-plus-circle"></i>
@@ -110,7 +136,16 @@ $mtgls=$pdo->getAllActive("tblCheck");
         </div>
         <div id="showColumn" class="hidden flex justify-center absolute text-black right-0 w-50 mr-6 origin-top-right rounded-md shadow-lg bg-gray-100 md:w-48">
           <ul>
-
+            <li>
+              <div columnName="vorname" class="showColumn h-8 vorname hidden">
+                Vorname
+              </div>
+            </li>
+            <li>
+              <div columnName="nachname" class="showColumn h-8 nachname hidden">
+                Nachname
+              </div>
+            </li>
             <li>
               <div columnName="nummer" class="showColumn h-8 nummer hidden">
                 Nummer
@@ -152,6 +187,9 @@ $mtgls=$pdo->getAllActive("tblCheck");
         if ($mtgl->bezahltBis<>"0000-00-00")
           {
             $bezahltBis=date_create($mtgl->bezahltBis);
+            //$bezahltBisForm=date_format($bezahltBis,"d.m.Y");//Nachteil: Liste ist nicht nach Datum sortierbar
+            $bezahltBisForm=$mtgl->bezahltBis;
+
             if ($bezahltBis>date_create(date("Y-m-d")))
               {
                 if ($mtgl->bezahlt==0)
@@ -170,7 +208,12 @@ $mtgls=$pdo->getAllActive("tblCheck");
 
                 $mtgl->bezahlt=0;
               };
-          };
+          }
+          else
+            {
+              $bezahltBisForm="";
+            };
+
 
         if ($mtgl->bezahlt==1)
          {
@@ -186,15 +229,31 @@ $mtgls=$pdo->getAllActive("tblCheck");
           }
         else
           {
-            $gedruckt=0;
+            $gedruckt="nein";
           };
+
+          $lengthVoN=strlen($mtgl->checkVoN);
+          $nonceVoN=substr($mtgl->checkVoN,0,32);
+          $nonceByteVoN=base64_decode($nonceVoN);
+          $vorname=substr($mtgl->checkVoN,32,$lengthVoN);
+          $vorname=sodium_crypto_secretbox_open(base64_decode($vorname),$nonceByteVoN,$key);
+
+          $lengthNaN=strlen($mtgl->checkNaN);
+          $nonceNaN=substr($mtgl->checkNaN,0,32);
+          $nonceByteNaN=base64_decode($nonceNaN);
+          $nachname=substr($mtgl->checkNaN,32,$lengthNaN);
+          $nachname=sodium_crypto_secretbox_open(base64_decode($nachname),$nonceByteNaN,$key);
+
          ?>
        <tr name=<?php echo $mtgl->checkId;?> class="h-10 table-secondary filter subTableClick " >
+         <td> <span class="text-xs "><?php echo $lineCounter;?></span></td>
          <td style="hyphens:auto" id='<?php echo $mtgl->checkId;?>' class='<?php echo "order2 click class".$mtgl->checkId." text-left break-words  border-b-2 border-gray-400 hover1  ";?>'>
-           <input type="checkbox" id='<?php echo $mtgl->checkId;?>' class="check form-checkbox h-5 w-5 ml-2"  name="check">
+          <input type="checkbox" id='<?php echo $mtgl->checkId;?>' class="check form-checkbox h-5 w-5 ml-2"  name="check">
          </td>
+         <td style="hyphens:auto" id='<?php echo $mtgl->checkId;?>' class='<?php echo "order2 click class".$mtgl->checkId." text-left break-words  border-b-2 border-gray-400 hover1 vorname ";?>'><?php echo $vorname;?></td>
+         <td style="hyphens:auto" id='<?php echo $mtgl->checkId;?>' class='<?php echo "order2 click class".$mtgl->checkId." text-left break-words  border-b-2 border-gray-400 hover1 nachname ";?>'><?php echo $nachname;?></td>
          <td style="hyphens:auto" id='<?php echo $mtgl->checkId;?>' class='<?php echo "order2 click class".$mtgl->checkId." text-left break-words  border-b-2 border-gray-400 hover1 nummer ";?>'><?php echo $mtgl->mitCNr;?></td>
-         <td style="hyphens:auto" id='<?php echo $mtgl->checkId;?>' class='<?php echo "order2 click class".$mtgl->checkId." text-left break-words  border-b-2 border-gray-400 hover1 bezahltBis";?>'><?php echo $mtgl->bezahltBis;?></td>
+         <td style="hyphens:auto" id='<?php echo $mtgl->checkId;?>' class='<?php echo "order2 click class".$mtgl->checkId." text-left break-words  border-b-2 border-gray-400 hover1 bezahltBis";?>'><?php echo $bezahltBisForm;?></td>
          <td style="hyphens:auto" id='<?php echo $mtgl->checkId;?>' class='<?php echo "order2 click class".$mtgl->checkId." text-left break-words  border-b-2 border-gray-400 hover1  pl-2 bezahlt";?>'><?php echo $bezahlt;?></td>
          <td style="hyphens:auto" id='<?php echo $mtgl->checkId;?>' class='<?php echo "order2 click class".$mtgl->checkId." text-left break-words  border-b-2 border-gray-400 hover1  pl-4 gedruckt";?>'><?php echo $gedruckt;?></td>
          <td style="hyphens:auto" id='<?php echo $mtgl->checkId;?>' class='<?php echo "order2 click class".$mtgl->checkId." text-left break-words  border-b-2 border-gray-400 hover1 plus";?>'>

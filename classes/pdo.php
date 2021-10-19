@@ -38,6 +38,24 @@ function getAllActive($table)
 
       }
 
+function checkMtglNr($mtglNr,$ogId)
+    {
+      $cmd=$this->pdo->prepare("SELECT checkId,mitCNr
+        FROM tblCheck
+        WHERE checkOg=?
+      ");
+      $cmd->execute([$ogId]);
+
+      $mtgls=$cmd->fetchALL();
+      foreach ($mtgls as $mtgl)
+        {
+          if (substr($mtgl["mitCNr"],-13)==$mtglNr)
+            {
+              return $mtgl["checkId"];
+            };
+        };
+
+    }
 
 function get($id,$tabelle,$name,$wert,$notUnique=false)
                 {
@@ -143,9 +161,22 @@ function update($table,$bedingungName,$bedingungWert,$name,$wert)
 
 function addMtgl($vorname,$nachname,$nummer,$bezahlt,$og)//$ArtID,$MatID,$KatID,$BezID,$HbeID,$FarID,$VerID,$HekID,$VpeID)
                {
+                 $bezahltBis=$bezahlt;
                  $typeBezahlt=gettype($bezahlt);
+
                  if ($typeBezahlt=="string")
                   {
+                    $bezahltBis=date_create($bezahlt);
+                    $bezahltBisForm=date_format($bezahltBis,"Y-m-d");
+
+                    if ($bezahltBisForm>date_create(date("Y-m-d")))
+                      {
+                        $bezahlt=1;
+                      }
+                    else
+                      {
+                        $bezahlt=0;
+                      }
                     $cmd=$this->pdo->prepare('INSERT INTO
                         tblCheck
                         (mitCNr,bezahltBis,bezahlt,checkVoN,checkNaN,checkOg)
@@ -153,7 +184,7 @@ function addMtgl($vorname,$nachname,$nummer,$bezahlt,$og)//$ArtID,$MatID,$KatID,
                         (?,?,?,?,?,?)
                         ');
 
-                      $wert=array($nummer,$bezahlt,0,$vorname,$nachname,$og); //Null zu AnmId ändern
+                      $wert=array($nummer,$bezahltBisForm,$bezahlt,$vorname,$nachname,$og); //Null zu AnmId ändern
                       $cmd->execute($wert); // führt die Abfrage, die oben prepared wurde aus
                   }
                 elseif($typeBezahlt=="integer")

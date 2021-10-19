@@ -5,6 +5,15 @@ include($dir."scr/header1_2.php");
 include($dir."init.php");
 include($dir."scr/header2_2.php");
 
+if(!empty($_GET))
+  {
+    $grund=$_GET["grund"];
+    if($grund=="PasswortFalsch")
+      {
+        echo "<h1>Das Passwort ist falsch </h1>";
+      };
+  };
+  //BitteNeuesPasswortEingeben
 
 ?>
 
