@@ -4,7 +4,11 @@ FUNKTIONEN:
 
 1. QR-Code-Check
    Nach einmaligen Laden von https://zutritt.app/dlrg/ können beliebig viele Ausweise mit QR-Code 
-   auch ohne Internetverbindung gescannt und gecheckt werden. 
+   auch ohne Internetverbindung gescannt und gecheckt werden.
+   Die Gültigkeit des Ausweises basiert auf dem Datum "gültig bis". Liegt dieses Datum in der Zukunft, 
+   wird der Status "gültig" auf "ja" gesetzt, liegt es in der Vergangenheit, so ist der Ausweis nicht 
+   gültig. Wird das Datum "gültig bis" leer gelassen, ist der Ausweis gültig, wenn ein Haken bei gültig 
+   gesetzt wurde.
    
 2. Userverwaltung
    Admins können neue Benutzer der einzelnen Ortgruppen anlegen, die daraufhin die Berechtigung haben 
@@ -19,7 +23,9 @@ FUNKTIONEN:
         Informationen zur Gültigkeit und Druckstatus ihres Ausweises angezeigt.
         Diese Liste ist sortierbar und durchsuchbar.
         Die Spalten lassen sich nach Belieben ein- und ausblenden.
-        
+        Für den eingeloggten Benutzer sind nur die Mitgliedsdaten seiner Ortgruppe sichtbar. 
+        Die persönlichen Daten der Mitglieder (Vorname, Nachname) werden in der Datenbank nur 
+        verschlüsselt (Sodium,256-bit-Verschlüsselung) gespeichert.        
    
    3.2. Neues Mitglied anlegen
         Einzelne Mitglieder lassen sich mit Name, Mitgliedsnummer und Gültikeitsinformationen anlegen
@@ -45,6 +51,7 @@ FUNKTIONEN:
         Mitglieder Ausweise erstellen. Es wird eine PDF-Datei erstellt in der die Vorderseiten aller
         Mitgliedsausweise  sowie eine Rückseite ist.
         Der Text auf der Rückseite kann abhängig von der Ortgruppe verändert werden.
+        Sobald die PDF-Datei erstellt wurde wird der Status "gedruckt" des Mitglieds auf "ja" gesetzt.
         
 
      
