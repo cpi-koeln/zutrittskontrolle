@@ -1,0 +1,200 @@
+-- phpMyAdmin SQL Dump
+-- version 5.1.1
+-- https://www.phpmyadmin.net/
+--
+-- Host: 127.0.0.1
+-- Erstellungszeit: 19. Okt 2021 um 10:59
+-- Server-Version: 10.4.21-MariaDB
+-- PHP-Version: 8.0.11
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Datenbank: `zutrittskontrolle`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `tblBezirke`
+--
+
+CREATE TABLE `tblBezirke` (
+  `bezId` int(11) NOT NULL,
+  `bezName` text NOT NULL,
+  `bezNum` varchar(2) NOT NULL,
+  `refLvId` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Daten für Tabelle `tblBezirke`
+--
+
+INSERT INTO `tblBezirke` (`bezId`, `bezName`, `bezNum`, `refLvId`) VALUES
+(1, 'Remscheid', '20', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `tblCheck`
+--
+
+CREATE TABLE `tblCheck` (
+  `checkId` int(11) NOT NULL,
+  `mitCNr` text COLLATE utf8_bin NOT NULL,
+  `bezahlt` tinyint(1) NOT NULL,
+  `bezahltBis` date DEFAULT NULL,
+  `gedruckt` tinyint(1) NOT NULL,
+  `checkVoN` varchar(255) COLLATE utf8_bin NOT NULL,
+  `checkNaN` varchar(255) COLLATE utf8_bin NOT NULL,
+  `checkOg` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `tblLandesverband`
+--
+
+CREATE TABLE `tblLandesverband` (
+  `lvId` int(11) NOT NULL,
+  `lvName` text COLLATE utf8mb4_bin NOT NULL,
+  `lvNum` varchar(2) COLLATE utf8mb4_bin NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+
+--
+-- Daten für Tabelle `tblLandesverband`
+--
+
+INSERT INTO `tblLandesverband` (`lvId`, `lvName`, `lvNum`) VALUES
+(1, 'Nordrhein', '09');
+
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `tblOrtsgruppen`
+--
+
+CREATE TABLE `tblOrtsgruppen` (
+  `ogId` int(11) NOT NULL,
+  `ogName` text NOT NULL,
+  `ogNum` varchar(3) NOT NULL,
+  `refBezId` int(11) NOT NULL,
+  `ogZ3` text NOT NULL,
+  `ogZ4` text NOT NULL,
+  `ogZ5` text NOT NULL,
+  `ogZ6` text NOT NULL,
+  `ogZ7` text NOT NULL,
+  `ogZ8` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Daten für Tabelle `tblOrtsgruppen`
+--
+
+INSERT INTO `tblOrtsgruppen` (`ogId`, `ogName`, `ogNum`, `refBezId`, `ogZ3`, `ogZ4`, `ogZ5`, `ogZ6`, `ogZ7`, `ogZ8`) VALUES
+(1, 'Remscheid', '000', 1, 'Bezirk Remscheid e.V.', 'Kräwinklerbrücke 10', '42897 Remscheid', 'Amtsgericht Wuppertal 20959', 'info@remscheid.dlrg.de', 'www.remscheid.dlrg.de'),
+(99999, 'Admin', '999', 99999, '', '', '', '', '', '');
+
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `tblUser`
+--
+
+CREATE TABLE `tblUser` (
+  `userId` int(11) NOT NULL,
+  `userName` text COLLATE utf8_bin NOT NULL,
+  `refOgId` int(11) NOT NULL,
+  `userPass` text COLLATE utf8_bin NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+--
+-- Daten für Tabelle `tblUser`
+--
+
+INSERT INTO `tblUser` (`userId`, `userName`, `refOgId`, `userPass`) VALUES
+(1, 'Christin Cürten', 99999, '$2y$10$PFU2lQZm7U4BSbTpO1UgF.1kjCTkLRPezZlfSdOub3Nw7iY8m8olC'),
+(6, 'Benjamin Paffrath', 99999, '$2y$10$7ou8AnVK/A/Ra/.9ypioD.z1y.f0ca0AmVZ6uAq72pTHChuP23HUC'),
+(10, 'Janine Paffrath', 1, '$2y$10$XKe2eipFMrIUViotFIoOOeMt1E9xaNG8A1Bs9NDEKixOnwBGt.Bsu');
+
+--
+-- Indizes der exportierten Tabellen
+--
+
+--
+-- Indizes für die Tabelle `tblBezirke`
+--
+ALTER TABLE `tblBezirke`
+  ADD PRIMARY KEY (`bezId`);
+
+--
+-- Indizes für die Tabelle `tblCheck`
+--
+ALTER TABLE `tblCheck`
+  ADD PRIMARY KEY (`checkId`);
+
+--
+-- Indizes für die Tabelle `tblLandesverband`
+--
+ALTER TABLE `tblLandesverband`
+  ADD PRIMARY KEY (`lvId`);
+
+--
+-- Indizes für die Tabelle `tblOrtsgruppen`
+--
+ALTER TABLE `tblOrtsgruppen`
+  ADD PRIMARY KEY (`ogId`);
+
+--
+-- Indizes für die Tabelle `tblUser`
+--
+ALTER TABLE `tblUser`
+  ADD PRIMARY KEY (`userId`);
+
+--
+-- AUTO_INCREMENT für exportierte Tabellen
+--
+
+--
+-- AUTO_INCREMENT für Tabelle `tblBezirke`
+--
+ALTER TABLE `tblBezirke`
+  MODIFY `bezId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT für Tabelle `tblCheck`
+--
+ALTER TABLE `tblCheck`
+  MODIFY `checkId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8445;
+
+--
+-- AUTO_INCREMENT für Tabelle `tblLandesverband`
+--
+ALTER TABLE `tblLandesverband`
+  MODIFY `lvId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT für Tabelle `tblOrtsgruppen`
+--
+ALTER TABLE `tblOrtsgruppen`
+  MODIFY `ogId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=100000;
+
+--
+-- AUTO_INCREMENT für Tabelle `tblUser`
+--
+ALTER TABLE `tblUser`
+  MODIFY `userId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

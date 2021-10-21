@@ -181,100 +181,103 @@ $mtgls=$pdo->getAllActive("tblCheck");
     $lineCounter=0;
     foreach($mtgls as $mtgl)   // durchlauf durch alle Main-Objekte
      {
-       $lineCounter++;
+       if ($mtgl->checkOg==$user->refOgId)
+        {
+         $lineCounter++;
 
 
-        if ($mtgl->bezahltBis<>"0000-00-00")
-          {
-            $bezahltBis=date_create($mtgl->bezahltBis);
-            //$bezahltBisForm=date_format($bezahltBis,"d.m.Y");//Nachteil: Liste ist nicht nach Datum sortierbar
-            $bezahltBisForm=$mtgl->bezahltBis;
+          if ($mtgl->bezahltBis<>"0000-00-00")
+            {
+              $bezahltBis=date_create($mtgl->bezahltBis);
+              //$bezahltBisForm=date_format($bezahltBis,"d.m.Y");//Nachteil: Liste ist nicht nach Datum sortierbar
+              $bezahltBisForm=$mtgl->bezahltBis;
 
-            if ($bezahltBis>date_create(date("Y-m-d")))
-              {
-                if ($mtgl->bezahlt==0)
-                  {
-                    $mtgl->bezahlt=1;
-                    $pdo->update("tblCheck","checkId",$mtgl->checkId,"bezahlt",1);
-                  }
-              }
+              if ($bezahltBis>date_create(date("Y-m-d")))
+                {
+                  if ($mtgl->bezahlt==0)
+                    {
+                      $mtgl->bezahlt=1;
+                      $pdo->update("tblCheck","checkId",$mtgl->checkId,"bezahlt",1);
+                    }
+                }
+              else
+                {
+                  if ($mtgl->bezahlt==1)
+                    {
+                      $mtgl->bezahlt=0;
+                      $pdo->update("tblCheck","checkId",$mtgl->checkId,"bezahlt",0);
+                    }
+
+                  $mtgl->bezahlt=0;
+                };
+            }
             else
               {
-                if ($mtgl->bezahlt==1)
-                  {
-                    $mtgl->bezahlt=0;
-                    $pdo->update("tblCheck","checkId",$mtgl->checkId,"bezahlt",0);
-                  }
-
-                $mtgl->bezahlt=0;
+                $bezahltBisForm="";
               };
-          }
+
+
+          if ($mtgl->bezahlt==1)
+           {
+             $bezahlt="ja";
+           }
+         else
+           {
+             $bezahlt="nein";
+           };
+          if ($mtgl->gedruckt==1)
+            {
+              $gedruckt="ja";
+            }
           else
             {
-              $bezahltBisForm="";
+              $gedruckt="nein";
             };
 
+            $lengthVoN=strlen($mtgl->checkVoN);
+            $nonceVoN=substr($mtgl->checkVoN,0,32);
+            $nonceByteVoN=base64_decode($nonceVoN);
+            $vorname=substr($mtgl->checkVoN,32,$lengthVoN);
+            $vorname=sodium_crypto_secretbox_open(base64_decode($vorname),$nonceByteVoN,$key);
 
-        if ($mtgl->bezahlt==1)
-         {
-           $bezahlt="ja";
-         }
-       else
-         {
-           $bezahlt="nein";
-         };
-        if ($mtgl->gedruckt==1)
-          {
-            $gedruckt="ja";
-          }
-        else
-          {
-            $gedruckt="nein";
-          };
+            $lengthNaN=strlen($mtgl->checkNaN);
+            $nonceNaN=substr($mtgl->checkNaN,0,32);
+            $nonceByteNaN=base64_decode($nonceNaN);
+            $nachname=substr($mtgl->checkNaN,32,$lengthNaN);
+            $nachname=sodium_crypto_secretbox_open(base64_decode($nachname),$nonceByteNaN,$key);
 
-          $lengthVoN=strlen($mtgl->checkVoN);
-          $nonceVoN=substr($mtgl->checkVoN,0,32);
-          $nonceByteVoN=base64_decode($nonceVoN);
-          $vorname=substr($mtgl->checkVoN,32,$lengthVoN);
-          $vorname=sodium_crypto_secretbox_open(base64_decode($vorname),$nonceByteVoN,$key);
+           ?>
+         <tr name=<?php echo $mtgl->checkId;?> class="h-10 table-secondary filter subTableClick " >
+           <td> <span class="text-xs "><?php echo $lineCounter;?></span></td>
+           <td style="hyphens:auto" id='<?php echo $mtgl->checkId;?>' class='<?php echo "order2 click class".$mtgl->checkId." text-left break-words  border-b-2 border-gray-400 hover1  ";?>'>
+            <input type="checkbox" id='<?php echo $mtgl->checkId;?>' class="check form-checkbox h-5 w-5 ml-2"  name="check">
+           </td>
+           <td style="hyphens:auto" id='<?php echo $mtgl->checkId;?>' class='<?php echo "order2 click class".$mtgl->checkId." text-left break-words  border-b-2 border-gray-400 hover1 vorname ";?>'><?php echo $vorname;?></td>
+           <td style="hyphens:auto" id='<?php echo $mtgl->checkId;?>' class='<?php echo "order2 click class".$mtgl->checkId." text-left break-words  border-b-2 border-gray-400 hover1 nachname ";?>'><?php echo $nachname;?></td>
+           <td style="hyphens:auto" id='<?php echo $mtgl->checkId;?>' class='<?php echo "order2 click class".$mtgl->checkId." text-left break-words  border-b-2 border-gray-400 hover1 nummer ";?>'><?php echo $mtgl->mitCNr;?></td>
+           <td style="hyphens:auto" id='<?php echo $mtgl->checkId;?>' class='<?php echo "order2 click class".$mtgl->checkId." text-left break-words  border-b-2 border-gray-400 hover1 bezahltBis";?>'><?php echo $bezahltBisForm;?></td>
+           <td style="hyphens:auto" id='<?php echo $mtgl->checkId;?>' class='<?php echo "order2 click class".$mtgl->checkId." text-left break-words  border-b-2 border-gray-400 hover1  pl-2 bezahlt";?>'><?php echo $bezahlt;?></td>
+           <td style="hyphens:auto" id='<?php echo $mtgl->checkId;?>' class='<?php echo "order2 click class".$mtgl->checkId." text-left break-words  border-b-2 border-gray-400 hover1  pl-4 gedruckt";?>'><?php echo $gedruckt;?></td>
+           <td style="hyphens:auto" id='<?php echo $mtgl->checkId;?>' class='<?php echo "order2 click class".$mtgl->checkId." text-left break-words  border-b-2 border-gray-400 hover1 plus";?>'>
+             <div>
+                <table >
+                  <tr >
 
-          $lengthNaN=strlen($mtgl->checkNaN);
-          $nonceNaN=substr($mtgl->checkNaN,0,32);
-          $nonceByteNaN=base64_decode($nonceNaN);
-          $nachname=substr($mtgl->checkNaN,32,$lengthNaN);
-          $nachname=sodium_crypto_secretbox_open(base64_decode($nachname),$nonceByteNaN,$key);
+                    <td class="pr-3">
+                      <a  role="button "  href='<?php echo "../verwalten/changeMtgl.php?id=".$mtgl->checkId;?>'><i title="Bearbeiten" alt="bearbeiten" class="fas fa-edit fa-2x" /></i></a>
+                    </td>
 
-         ?>
-       <tr name=<?php echo $mtgl->checkId;?> class="h-10 table-secondary filter subTableClick " >
-         <td> <span class="text-xs "><?php echo $lineCounter;?></span></td>
-         <td style="hyphens:auto" id='<?php echo $mtgl->checkId;?>' class='<?php echo "order2 click class".$mtgl->checkId." text-left break-words  border-b-2 border-gray-400 hover1  ";?>'>
-          <input type="checkbox" id='<?php echo $mtgl->checkId;?>' class="check form-checkbox h-5 w-5 ml-2"  name="check">
-         </td>
-         <td style="hyphens:auto" id='<?php echo $mtgl->checkId;?>' class='<?php echo "order2 click class".$mtgl->checkId." text-left break-words  border-b-2 border-gray-400 hover1 vorname ";?>'><?php echo $vorname;?></td>
-         <td style="hyphens:auto" id='<?php echo $mtgl->checkId;?>' class='<?php echo "order2 click class".$mtgl->checkId." text-left break-words  border-b-2 border-gray-400 hover1 nachname ";?>'><?php echo $nachname;?></td>
-         <td style="hyphens:auto" id='<?php echo $mtgl->checkId;?>' class='<?php echo "order2 click class".$mtgl->checkId." text-left break-words  border-b-2 border-gray-400 hover1 nummer ";?>'><?php echo $mtgl->mitCNr;?></td>
-         <td style="hyphens:auto" id='<?php echo $mtgl->checkId;?>' class='<?php echo "order2 click class".$mtgl->checkId." text-left break-words  border-b-2 border-gray-400 hover1 bezahltBis";?>'><?php echo $bezahltBisForm;?></td>
-         <td style="hyphens:auto" id='<?php echo $mtgl->checkId;?>' class='<?php echo "order2 click class".$mtgl->checkId." text-left break-words  border-b-2 border-gray-400 hover1  pl-2 bezahlt";?>'><?php echo $bezahlt;?></td>
-         <td style="hyphens:auto" id='<?php echo $mtgl->checkId;?>' class='<?php echo "order2 click class".$mtgl->checkId." text-left break-words  border-b-2 border-gray-400 hover1  pl-4 gedruckt";?>'><?php echo $gedruckt;?></td>
-         <td style="hyphens:auto" id='<?php echo $mtgl->checkId;?>' class='<?php echo "order2 click class".$mtgl->checkId." text-left break-words  border-b-2 border-gray-400 hover1 plus";?>'>
-           <div>
-              <table >
-                <tr >
+                    <td>
+                      <a  role="button" onclick="return  confirm('Soll das Mitglied  wirklich gelöscht werden?')"  href='<?php echo "../verwalten/deleteMtgl.php?id=".$mtgl->checkId;?>'><i title="Entfernen" alt="Entfernen" class="fas fa-trash-alt fa-2x" /></i></a>
+                    </td>
+                  </tr>
+                </table>
+             </div>
+           </td>
 
-                  <td class="pr-3">
-                    <a  role="button "  href='<?php echo "../verwalten/changeMtgl.php?id=".$mtgl->checkId;?>'><i title="Bearbeiten" alt="bearbeiten" class="fas fa-edit fa-2x" /></i></a>
-                  </td>
-
-                  <td>
-                    <a  role="button" onclick="return  confirm('Soll das Mitglied  wirklich gelöscht werden?')"  href='<?php echo "../verwalten/deleteMtgl.php?id=".$mtgl->checkId;?>'><i title="Entfernen" alt="Entfernen" class="fas fa-trash-alt fa-2x" /></i></a>
-                  </td>
-                </tr>
-              </table>
-           </div>
-         </td>
-
-      </tr>
-     <?php
+        </tr>
+       <?php
+     };
      };
      ?>
   </tbody>

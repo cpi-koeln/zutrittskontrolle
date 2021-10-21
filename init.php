@@ -16,21 +16,21 @@ require __DIR__."/classes/user.php";
 require __DIR__."/classes/mtgl.php";
 require __DIR__."/scr/css/style.css";
 
-
-
-include "databaseTest.php";
+if (file_exists($dir."database.php"))
+  {
+    include $dir."database.php";
+  }
+else {
+  include $dir."databaseTest.php";
+};
 
   try {
     $pdo = new pdo1($host_name,$database, $user_name, $password);
-  } catch (PDOException $e) {
-    include "database.php";
-    try {
-      $pdo = new pdo1($host_name,$database, $user_name, $password);
-    } catch (PDOException $e) {
+    } catch (Exception $e) {
       echo "Fehler!: " . $e->getMessage() . "<br/>";
       die();
-    }
-  }
+    };
+
 if(!empty($_COOKIE["userName"]))
   {
     $userName=$_COOKIE["userName"];
