@@ -10,12 +10,24 @@ include("scr/header1_2.php"); // auf jeder Seite mit Ausgabe wird ein zweigeteil
 include($dir."init.php");   // hier wird die Datenbankverbindung hergestellt und weitere für jede Seite notwendige Einstellungen vorgenommen
 include("index.js");    //zum ein-und Ausblenden wird Javascript/jquery benötigt
 include("scr/header2_2.php"); // hier kommt der zweite Teil des Headers, der die Navbar beinhaltet
-ob_end_flush();
+
 
 
 
 
 //----------BODY----------------------------//
+
+//Check ob Cookies beim Checken gesetzt wurden, wenn ja, dann müsssen diese ausgelesen und die Datenbank geändert werden
+foreach($_COOKIE as $name=>$nummer)
+{
+  if(substr($name,0,6)=="cookie")
+    {
+      $nummerKurz=substr($nummer,2,15);
+      $pdo->change("tblCheck","mitCNR","mitCNR",$nummerKurz,$nummer);
+      setcookie($name,"",time()-3600);
+    };
+};
+
 $mitglieder=$pdo->getAllActive("tblCheck");
 foreach ($mitglieder  as $mitglied)
   {
@@ -105,5 +117,5 @@ foreach ($mitglieder  as $mitglied)
 
 
   });
-
+ob_end_flush();
 </script>

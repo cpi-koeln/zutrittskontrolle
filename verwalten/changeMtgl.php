@@ -25,7 +25,7 @@ $id=$_GET["id"]; // würde auch mit cookie über jquery gehen. Mehrwert??
 $mtgl=$pdo->fetchMtglById($id);
 $datum=date_create($mtgl[0]->bezahltBis);
 
-$mtglNr=substr($mtgl[0]->mitCNr,9,13);
+$mtglNr=substr($mtgl[0]->mitCNr,-6);
 
 $lengthVoN=strlen($mtgl[0]->checkVoN);
 $nonceVoN=substr($mtgl[0]->checkVoN,0,32);

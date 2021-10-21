@@ -25,7 +25,10 @@ function check(data){
       else { // ID nicht vorhanden
         if($(".ID_"+dataShort).length> 0 ) // wenn Nummer ohne Prüfziffer vorhanden ist
           {
+            setCookie(data) // Um Änderungen auch ohne Internetverbindung später zu übertragen
+
             //hier wird die Nummer in der Datenbank noch aktualisiert mit Prüfziffer
+            /* Der folgende Code klappt nur wenn beim Checken Internetverbindung besteht, daher rausgenommen und stattdessen Cookies gesetzt
             $.ajax({
               url: "scr/save.php",
               type: "POST",
@@ -34,7 +37,7 @@ function check(data){
                       nummerAlt:dataShort,
               },
               cache: false,
-            });
+            });*/
             if($(".ID_"+dataShort).attr("check")==1) //ID vorhanden, bezahlt
               {
                 remove("bezahlt");
@@ -93,7 +96,13 @@ function check(data){
         });
     }
 
+function setCookie(data){
 
+  min = Math.ceil(100000);
+  max = Math.floor(999999);
+  random=Math.floor(Math.random() * (max - min +1)) + min;
+  document.cookie="cookie_"+random.toString()+"="+data.toString();
+}
 
 
 

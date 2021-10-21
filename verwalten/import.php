@@ -63,23 +63,23 @@ else
   for ($i=0;$i<$countSpalten;$i++)
     {
 
-      if(str_contains($data[0][$i],"Vorname"))
+      if(is_int(stripos($data[0][$i],"Vorname")))
         {
           $spalteVoN=$i;
         }
-      elseif(str_contains($data[0][$i],"Nachname"))
+      elseif(is_int(stripos($data[0][$i],"Nachname")))
         {
           $spalteNaN=$i;
         }
-      elseif(str_contains($data[0][$i],"Mitgliedsnummer"))
+      elseif(is_int(stripos($data[0][$i],"Mitgliedsnummer")))
         {
           $spalteMNr=$i;
         }
-      elseif(str_contains($data[0][$i],"gültig bis"))
+      elseif(is_int(stripos($data[0][$i],"gültig bis")))
         {
           $spalteGueltigBis=$i;
         }
-      elseif(str_contains($data[0][$i],"gültig"))
+      elseif(is_int(stripos($data[0][$i],"gültig")))
         {
           $spalteGueltig=$i;
         };
@@ -155,7 +155,7 @@ else
             }
           else
             {
-              if(str_contains($bezahlt,"ja"))
+              if(is_int(stripos($bezahlt,"ja")))
                 {
                   $pdo->addMtgl($checkVoN,$checkNaN,$nummer,1,$user->refOgId);
                 }
@@ -183,11 +183,11 @@ else
                 $pdo->change("tblCheck","checkNaN","checkId",$checkId,$checkNaN);
               };
 
-            if (str_contains($bezahlt,"ja"))
+            if (is_int(stripos($bezahlt,"ja")))
               {
                 $pdo->change("tblCheck","bezahlt","checkId",$checkId,1);
               }
-            elseif (str_contains($bezahlt,"nein"))
+            elseif (is_int(stripos($bezahlt,"nein")))
               {
                 $pdo->change("tblCheck","bezahlt","checkId",$checkId,0);
               };

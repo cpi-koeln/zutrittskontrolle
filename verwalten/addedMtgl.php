@@ -5,7 +5,7 @@ $dir="../";  // zeigt ebene in der Ordnerstruktur an
 $folder="verwalten";  //wird benötigt um in der Navbar/header das ausgewählte Menü zu markieren
 include($dir."init.php");   // hier wird die Datenbankverbindung hergestellt und weitere für jede Seite notwendige Einstellungen vorgenommen
 
-ob_end_flush();
+
 
 
 
@@ -44,5 +44,5 @@ else
 
 header("Location: ../verwalten/uebersicht.php");
 die();
-
+ob_end_flush();
 ?>

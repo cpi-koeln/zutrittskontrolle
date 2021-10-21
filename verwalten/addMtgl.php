@@ -13,10 +13,13 @@ ob_end_flush();
 
 
 $ogNum=$pdo->get("ogNum","tblOrtsgruppen","ogId",$user->refOgId);
+
 $bezId=$pdo->get("refBezId","tblOrtsgruppen","ogId",$user->refOgId);
 $bezNum=$pdo->get("bezNum","tblBezirke","bezId",$bezId);
+
 $lvId=$pdo->get("refLvId","tblBezirke","bezId",$bezId);
 $lvNum=$pdo->get("lvNum","tblLandesverband","lvId",$lvId);
+
 //750920000700347
 //----------------------BODY------------------------------------//
 ?>
