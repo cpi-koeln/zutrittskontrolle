@@ -1,0 +1,57 @@
+RELEASE NOTES VERSION 1.1
+--------------------------------------------------------
+FUNKTIONEN:
+
+1. QR-Code-Check
+   Nach einmaligen Laden von https://zutritt.app/dlrg/ können beliebig viele Ausweise mit QR-Code
+   auch ohne Internetverbindung gescannt und gecheckt werden.
+   Die Gültigkeit des Ausweises basiert auf dem Datum "gültig bis". Liegt dieses Datum in der Zukunft,
+   wird der Status "gültig" auf "ja" gesetzt, liegt es in der Vergangenheit, so ist der Ausweis nicht
+   gültig. Wird das Datum "gültig bis" leer gelassen, ist der Ausweis gültig, wenn ein Haken bei gültig
+   gesetzt wurde.
+
+2. Userverwaltung
+   Admins können neue Benutzer der einzelnen Ortgruppen anlegen, die daraufhin die Berechtigung haben
+   die Mitglieder ihrer Ortsgruppe zu verwalten.
+
+3. Mitgliederverwaltung
+   Die User der einzelnen Ortsgruppen können Ihre Mitglieder anlegen, verwalten, löschen und ihnen
+   Zutrittsberechtigungen gewähren und entziehen.
+
+   3.1. Mitgliederübersicht
+        In der Mitgliederübersicht werden alle eingepflegten Mitglieder mit Name, Ausweisnummer und
+        Informationen zur Gültigkeit und Druckstatus ihres Ausweises angezeigt.
+        Diese Liste ist sortierbar und durchsuchbar.
+        Die Spalten lassen sich nach Belieben ein- und ausblenden.
+        Für den eingeloggten Benutzer sind nur die Mitgliedsdaten seiner Ortgruppe sichtbar.
+        Die persönlichen Daten der Mitglieder (Vorname, Nachname) werden in der Datenbank nur
+        verschlüsselt (Sodium,256-bit-Verschlüsselung) gespeichert.
+
+   3.2. Neues Mitglied anlegen
+        Einzelne Mitglieder lassen sich mit Name, Mitgliedsnummer und Gültikeitsinformationen anlegen
+
+   3.3. Mitgliederimport/-aktualisierung durch CSV-Import
+        Neue Mitglieder lasses sich ebenfalls mit Hilfe einer CSV-Datei importieren.
+        Falls das Mitglied bereits vorhanden ist werden die gespeicherten Informationen aktualisiert.
+
+   3.4  Einzelne Mitglieder löschen
+        Es lassen sich einzelne Mitglieder durch Klick auf das Mülleimersymbol in der jeweiligen
+        Zeile löschen.
+
+   3.5  Mehrere Mitglieder löschen
+        Durch Klick auf das Mülleimersymbol über der Tabelle lassen sich beliebig viele aktivierte
+        Mitglieder löschen
+
+   3.6  Mitgliedsdaten ändern
+        Mitgliedsdaten wie Name und Gültigkeitsinformationen lassen sich durch Klick auf das
+        Bearbeiten-Symbol in der jeweiligen Zeile löschen.
+
+   3.7  Mitgliedsausweis drucken
+        Durch Klick auf das Drucker-Symbol über der Liste lassen sich für alle aktivierten
+        Mitglieder Ausweise erstellen. Es wird eine PDF-Datei erstellt in der die Vorderseiten aller
+        Mitgliedsausweise  sowie eine Rückseite ist.
+        Der Text auf der Rückseite kann abhängig von der Ortgruppe verändert werden.
+        Sobald die PDF-Datei erstellt wurde wird der Status "gedruckt" des Mitglieds auf "ja" gesetzt.
+
+
+     
