@@ -20,11 +20,14 @@ include("scr/header2_2.php"); // hier kommt der zweite Teil des Headers, der die
 //Check ob Cookies beim Checken gesetzt wurden, wenn ja, dann müsssen diese ausgelesen und die Datenbank geändert werden
 foreach($_COOKIE as $name=>$nummer)
 {
-  if(substr($name,0,6)=="cookie")
+  if(substr($name,0,6)=="Change")
     {
-      $nummerKurz=substr($nummer,2,15);
-      $pdo->change("tblCheck","mitCNR","mitCNR",$nummerKurz,$nummer);
-      setcookie($name,"",time()-3600);
+      if (strlen($nummer)<50)
+        {
+          $nummerKurz=substr($nummer,2,15);
+          $pdo->change("tblCheck","mitCNR","mitCNR",$nummerKurz,$nummer);
+          setcookie($name,"",time()-3600);
+        }
     };
 };
 
@@ -117,5 +120,6 @@ foreach ($mitglieder  as $mitglied)
 
 
   });
-ob_end_flush();
+
 </script>
+<?php ob_end_flush(); ?>

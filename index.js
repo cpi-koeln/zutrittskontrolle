@@ -99,9 +99,12 @@ function check(data){
 function setCookie(data){
 
   min = Math.ceil(100000);
-  max = Math.floor(999999);
-  random=Math.floor(Math.random() * (max - min +1)) + min;
-  document.cookie="cookie_"+random.toString()+"="+data.toString();
+max = Math.floor(999999);
+random=Math.floor(Math.random() * (max - min +1)) + min;
+let date = new Date();
+date.setTime(date.getTime() + (7 * 24 * 60 * 60 * 1000));
+const expires = "expires=" + date.toUTCString();
+document.cookie="cookie_"+random.toString()+"="+data.toString()+"; "+expires;
 }
 
 
